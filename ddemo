@@ -1,0 +1,185 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { adminLogout } from '../redux/action/adminAction';
+import Logo from '../../src/Style/Images/neonbrand-1-aA2Fadydc-unsplash.jpg';
+import { FaUser, FaChalkboardTeacher, FaGraduationCap, FaBook, FaPlusSquare, FaSignOutAlt } from 'react-icons/fa';
+
+const Home = () => {
+  const store = useSelector((store) => store);
+  const [name, setName] = useState('');
+  useEffect(() => {
+    if (store.admin.admin.name) {
+      setName(store.admin.admin.name);
+    }
+  }, [store.admin.admin.name]);
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(adminLogout());
+    history.push('/');
+  };
+
+  // Google functionality
+  const [searchText, setSearchText] = useState('');
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+    const searchQuery = searchText.split(' ').join('+');
+    window.location.href = `https://www.google.com/search?q=${searchQuery}`;
+  };
+
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <nav className="col-md-2 bg-dark text-white position-fixed" style={{ height: "100vh" }}>
+          <div className="d-flex flex-column">
+            <div className="sidebar-sticky mb-3">
+              <ul className="nav flex-column">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin">
+                    <FaUser size={40} />
+                    {name.toUpperCase()}
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/addFaculty">
+                    <FaPlusSquare size={20} />
+                    ADD FACULTY
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/addStudent">
+                    <FaPlusSquare size={20} />
+                    ADD STUDENT
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/addSubject">
+                    <FaPlusSquare size={20} />
+                    ADD SUBJECT
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/addAdmin">
+                    <FaPlusSquare size={20} />
+                    ADD ADMIN
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/allFaculties">
+                    <FaChalkboardTeacher size={20} />
+                    OUR FACULTIES
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/allStudents">
+                    <FaGraduationCap size={20} />
+                    OUR STUDENTS
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/allSubject">
+                    <FaBook size={20} />
+                    SUBJECTS
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="mt-auto">
+             <button
+                className="btn btn-outline-danger"
+                onClick={logoutHandler}
+                type="button"
+              >
+                <FaSignOutAlt size={20} />
+                    LOGOUT
+            </button>
+          </div>
+</div>
+</nav>
+<main className="col-md-10 bg-dark ml-auto pt-3 px-4">
+<div className="d-flex justify-content-between align-items-center mb-3">
+        <a className='navbar-brand' href=''>
+                <img
+                  src={Logo}
+                  width='45'
+                  height='45'
+                  className='d-inline-block align-top me-2'
+                  alt=''
+                />
+                <h4 className='d-inline-block align-middle mb-0'>
+                  CaMpusHub
+                </h4>
+              </a>
+<form onSubmit={onSearchSubmit} className="d-flex align-items-center">
+<input
+type="text"
+placeholder="Search on Google..."
+className="form-control"
+value={searchText}
+onChange={(e) => setSearchText(e.target.value)}
+/>
+<button type="submit" className="btn btn-primary ml-2">
+Search
+</button>
+</form>
+</div>
+</main>
+</div>
+</div>
+);
+};
+
+export default Home;
+
+
+
+
+
+````````
+
+
+
+<div className="row m-5">
+                        <div className="col-md-8 m-auto border" style={{ backgroundColor: "white", borderRadius: "1.2rem", padding: "1rem 1rem 0rem 1rem" }}>
+                            <div>
+                                <h3 className="text-center">STUDENT</h3>
+                                <form noValidate onSubmit={studentFormHandler}>
+                                    <div className="form-group">
+                                        <label htmlFor="studentId">Registration Number</label>
+                                        <input onChange={(e) => setStudentRegNum(e.target.value)} type="text" value={studentRegNum} className={classnames('form-control', {
+                                            'is-invalid': errorsHelper.registrationNumber
+                                        })}
+                                            id="studentId" />
+                                        {errorsHelper.registrationNumber && (
+                                            <div className="invalid-feedback">{errorsHelper.registrationNumber}</div>
+                                        )}
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="passwordId">Password</label>
+                                        <input onChange={(e) => setStudentPassword(e.target.value)} value={studentPassword} className={classnames("form-control", {
+                                            'is-invalid': errorsHelper.password
+                                        })}
+                                            type="password" id="passwordId" />
+                                        {errorsHelper.password && (
+                                            <div className="invalid-feedback">{errorsHelper.password}</div>
+                                        )}
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-1">
+                                            {
+                                                isStudentLoading && <div class="spinner-border text-primary" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    {!isStudentLoading && <button type="submit" className="btn btn-info btn-block ">Login</button>}
+
+                                </form>
+                                <p className="text-center"><Link className="text-center" to="/forgotPassword/student">Forgot Password</Link></p>
+                            </div>
+                        </div>
+                    </div>

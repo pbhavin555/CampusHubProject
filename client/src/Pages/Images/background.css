@@ -1,0 +1,30 @@
+.container-fluid {
+  animation: myAnimation 10s infinite alternate;
+}
+
+@keyframes myAnimation {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+
+:root {
+  --primary-color: #007bff; /* default theme */
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+}
+
+.dark-theme {
+  --primary-color: #dc3545;
+  --background-color: #343a40;
+  --text-color: #fff;
+}
+
+.blue-theme {
+  --primary-color: #17a2b8;
+  --background-color: #fff;
+  --text-color: #212529;
+}
