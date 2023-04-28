@@ -81,8 +81,8 @@ app.use((error, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.MONGO_URL.replace("<password>", process.env.MONGO_PASSWORD)
-, { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true }).then(() => {
+\mongoose.connect(process.env.MONGO_URL.replace("<password>", process.env.MONGO_PASSWORD),
+ { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true }).then(() => {
     _response.database = "Healthy"
     console.log("Database Connected")
     console.log("server Started on PORT", PORT)
@@ -97,7 +97,7 @@ app.use('/',(req,res)=>{
 
 
 server.listen(PORT, ()=>{
-    _response.server = "Healthy"
+    _response.server = "Healthy"                    
 })
 
 // process.env.MONGO_URL.replace("<password>", process.env.MONGO_PASSWORD
