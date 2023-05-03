@@ -6,6 +6,8 @@ const passport = require('passport')
 const cors = require('cors')
 const morgan = require('morgan')
 const dotenv = require('dotenv');
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
 dotenv.config()
 
 
@@ -24,6 +26,7 @@ const adminRoutes = require('./routes/adminRoutes')
 const facultyRoutes = require('./routes/facultyRoutes')
 const studentRoutes = require('./routes/studentRoutes')
 const circularsRoutes = require('./routes/circulars');
+const swagger = require('./routes/swagger.route');
 
 //Passport Middleware
 app.use(passport.initialize());
@@ -53,21 +56,24 @@ io.on('connection', (socket) => {
 
 let _response = {}
 
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
 //ROUTES
 app.use('/api/admin', adminRoutes)
 app.use('/api/faculty', facultyRoutes)
 app.use('/api/student', studentRoutes)
-
 // API routes
 app.use('/api/circulars', circularsRoutes);
 
 
+
+
 //Catching 404 Error
-app.use((req, res, next) => {
-    const error = new Error('INVALID ROUTE')
-    error.status = 404
-    next(error);
-})
+// app.use((req, res, next) => {
+//     const error = new Error('INVALID ROUTE')
+//     error.status = 404
+//     next(error);
+// })
 
 //Error handler function
 app.use((error, req, res, next) => {
@@ -81,24 +87,26 @@ app.use((error, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-\mongoose.connect(process.env.MONGO_URL.replace("<password>", process.env.MONGO_PASSWORD),
- { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true }).then(() => {
-    _response.database = "Healthy"
-    console.log("Database Connected")
-    console.log("server Started on PORT", PORT)
-}).catch((err) => {
-    _response.database = "Unhealthy"
-    console.log("Error in connecting to DataBase", err.message)
-})
+// mongoose.connect(process.env.MONGO_URL.replace("<password>", process.env.MONGO_PASSWORD),
+//  { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true }).then(() => {
+//     _response.database = "Healthy"
+//     console.log("Database Connected")
+//     console.log("server Started on PORT", PORT)
+// }).catch((err) => {
+//     _response.database = "Unhealthy"
+//     console.log("Error in connecting to DataBase", err.message)
+// })
 
 app.use('/',(req,res)=>{
     res.status(200).json(_response)
 })
 
 
-server.listen(PORT, ()=>{
-    _response.server = "Healthy"                    
-})
+// server.listen(PORT, ()=>{
+//     _response.server = "Healthy"                    
+// })
+server.listen(PORT);
+
 
 // process.env.MONGO_URL.replace("<password>", process.env.MONGO_PASSWORD
 // "mongodb://127.0.0.1:27017/frontEndProject"
